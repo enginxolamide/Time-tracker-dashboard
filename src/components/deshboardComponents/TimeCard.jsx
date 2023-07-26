@@ -1,114 +1,60 @@
 /* eslint-disable react/prop-types */
 import styled from "@emotion/styled";
-
 import iconEllipsis from "./../../assets/images/icon-ellipsis.svg";
-import iconExercise from "./../../assets/images/icon-exercise.svg";
-import iconPlay from "./../../assets/images/icon-play.svg";
-import iconSelfCare from "./../../assets/images/icon-self-care.svg";
-import iconSocial from "./../../assets/images/icon-social.svg";
-import iconStudy from "./../../assets/images/icon-study.svg";
-import iconWork from "./../../assets/images/icon-work.svg";
 
 export const TimeCard = ({
   title,
   hoursSpent,
+  // bodyColor,
   topColor,
-  bodyColor,
   timeframe,
-  timeframeperiod,
+  icon
 }) => {
-
-  //switch to handle timeframe changes
-  function PrevPeriods(timeframe) {
-    switch (timeframe) {
-      case "Daily":
-        return "Yesterday";
-
-      case "Weekly":
-        return "Last Week";
-
-      case "Monthly":
-        return "Last Month";
-      default:
-        return "Last Week";
-    }
-  }
-
-  function removeSpaces(str) {
-    return str.replace(/\s/g, "");
-  }
-
-
-  function getIconByTitle(title) {
-    const lowerCasetitle = removeSpaces(title).toLowerCase();
-    //switch to handle some props (color, icon and timeframe text) and card behaviour by title
-    switch (lowerCasetitle) {
-      case "exercise":
-        topColor = "var( --Limegreen)";
-        timeframeperiod = "5hrs";
-        return iconExercise;
-      case "play":
-        topColor = "var( --Softblue)";
-        timeframeperiod = "8hrs";
-        return iconPlay;
-      case "selfcare":
-        topColor = "var( --Softorange)";
-        timeframeperiod = "2hrs";
-        return iconSelfCare;
-      case "social":
-        topColor = "var( --Violet)";
-        timeframeperiod = "10hrs";
-        return iconSocial;
-      case "study":
-        topColor = "var( --Lightred)";
-        timeframeperiod = "7hrs";
-        return iconStudy;
-      case "work":
-        topColor = "var( --Lightorange)";
-        timeframeperiod = "36hrs";
-        return iconWork;
-      default:
-        return null;
-    }
-  }
-  const icon = getIconByTitle(title);
-
- 
-
   return (
-    <Card>
-      <TopCont className="TopCont" topColor={topColor}>
-        <img className="icon" src={icon} alt="" />
-      </TopCont>
-      <BodyCont bodyColor={bodyColor}>
-        <div className="body-top">
-          <h3>{title}</h3>
-          <div className="moreIcon">
-            <img src={iconEllipsis} alt="" />
-          </div>
+    <div>
+      <Card>
+        <div key="id">
+          <TopCont className="TopCont" topColor={topColor}>
+            {icon && <img className="icon" src={icon} alt="" />}
+          </TopCont>
+
+          <BodyCont bodyColor="blue">
+            <div className="body-top">
+              <h3>{title}</h3>
+              <div className="moreIcon">
+                <img src={iconEllipsis} alt="" />
+              </div>
+            </div>
+            <div className="bodycount-body">
+              <p className="hours-spent">{hoursSpent}</p>
+              <p className="prevTimeframe">{timeframe}</p>
+            </div>
+          </BodyCont>
         </div>
-        <p className="hours-spent">{hoursSpent}</p>
-        <p className="prevTimeframe">{PrevPeriods(timeframe)+" - "+timeframeperiod}</p>
-      </BodyCont>
-    </Card>
+      </Card>
+    </div>
   );
 };
+
+// Styles (Remaining code is the same)
+
 
 // Styles
 const Card = styled.div`
   width: 200px;
   &:hover .TopCont {
-    transform: translateY(-20px);
+    transform: translateY(-5px);
   }
   @media (max-width: 570px) {
     width: 100%;
+  }
 `;
 
 const TopCont = styled.div`
   height: 80px;
   z-index: -1;
   text-align: right;
-  margin-bottom: -60px;
+  margin-bottom: -40px;
   border-radius: 15px 15px 0px 0px;
   padding: 0 14px;
   position: relative;
@@ -121,6 +67,7 @@ const TopCont = styled.div`
     margin-top: -10px;
   }
 `;
+
 const BodyCont = styled.div`
   z-index: 10;
   display: flex;
@@ -130,10 +77,24 @@ const BodyCont = styled.div`
   color: white;
   padding: 24px;
   gap: 14px;
+
+  @media (max-width: 570px) {
+    .bodycount-body {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      .hours-spent {
+        font-size: 2rem;
+      }
+    }
+  }
+
   .body-top {
     display: flex;
     justify-content: space-between;
     font-size: 0.8rem;
+    font-weight: 300;
   }
   .hours-spent {
     font-size: 3rem;

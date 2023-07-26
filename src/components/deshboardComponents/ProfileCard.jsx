@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 
 
-export const ProfileCard = ({ profileImage, userName, getDataValue }) => {
+export const ProfileCard = ({ profileImage, userfirstName, userlastName, getDataValue }) => {
   const [activePeriod, setActivePeriod] = useState("Daily");
 
   const handleItemClick = (period) => {
@@ -21,11 +21,11 @@ export const ProfileCard = ({ profileImage, userName, getDataValue }) => {
     <Card>
  
       <TopCont media="true">
-        <img className="icon" src={profileImage} alt="" />
-        <p>Report for</p>
-        <h3>
-          {userName}
-        </h3>
+        <img className="profileImage" src={profileImage} alt="" />
+        <div className="top-body">
+          <p>Report for</p>
+          <h3>{userfirstName} <br/>{userlastName}</h3>
+        </div>
       </TopCont>
       <BodyCont>
         <ul>
@@ -79,6 +79,22 @@ const TopCont = styled.div`
   transition: filter 0.3s;
   box-shadow: 0 0 0 rgba(255, 165, 0, 0.7);
   background-color: var(--Blue);
+
+  @media (max-width: 670px) {
+   display: flex;
+   height: auto;
+   align-items: center;
+   
+   .top-body{
+    margin-left: 24px;
+   }
+
+   .profileImage {
+margin-bottom: 0px;
+height: 5.2rem;
+   }
+  }
+
   img {
     height: 4.2rem;
     border: white 2px solid;
@@ -98,12 +114,12 @@ const BodyCont = styled.div`
   margin-top: -20px;
   display: flex;
   height: fill;
-
   flex-direction: column;
   background-color: var(--Darkblue);
   border-radius: 15px;
   color: white;
   padding: 24px;
+  padding-top: 30px;
   gap: 14px;
   ul {
     padding: 10px;
@@ -111,9 +127,11 @@ const BodyCont = styled.div`
     flex-direction: column;
     gap: 10px;
     @media (max-width: 670px) {
-        flex-direction: row;
+      width: 100%;
+justify-content: space-between;
+      flex-direction: row;
         flex-wrap: wrap;
-        gap: 24px;
+    
   }
   li {
     font-size: 1rem;

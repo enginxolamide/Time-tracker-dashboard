@@ -1,75 +1,107 @@
+
 import styled from "@emotion/styled";
 import { TimeCard } from "./deshboardComponents/TimeCard";
+import axios from 'axios';
 import profileImage from "./../assets/images/image-jeremy.png";
 import { ProfileCard } from "./deshboardComponents/ProfileCard";
-import {  useState } from "react";
 
-// eslint-disable-next-line react/prop-types
+import iconExercise from "./../assets/images/icon-exercise.svg";
+import iconPlay from "./../assets/images/icon-play.svg";
+import iconSelfCare from "./../assets/images/icon-self-care.svg";
+import iconSocial from "./../assets/images/icon-social.svg";
+import iconStudy from "./../assets/images/icon-study.svg";
+import iconWork from "./../assets/images/icon-work.svg";
+
+import { useEffect, useState } from "react";
+
+
 const Dashboard = () => {
-const username = 'Jeremy\n Robson'
-const profileimage = profileImage
+  const userfirstname = 'Jeremy';
+  const userlastname = 'Robson';
+  const profileimage = profileImage;
+  
+  const [data, setData] = useState();
 
+  // Fetching the data from the DB
+  const fetchData = async () => {
+    try {
+      const res = await axios.get('http://localhost:3000/dashboard');
+      setData(res.data);
+    } catch (err) {
+      console.log('Failed:', err);
+    }
+  }
 
-const [period, setPeriod] = useState('Daily')
-const getData =(value)=>{
-setPeriod(value)
-}
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const [period, setPeriod] = useState('Daily');
+
+  const getData = (value) => {
+    setPeriod(value);
+  }
+
+  
+
 
 
   return (
     <Dash media="true">
-      
       <div className="main">
-          <ProfileCard  profileImage={profileimage} userName={username}  getDataValue = {getData} />
-          <DashBoardTimeCard>
-            <TimeCard
-              title={"work"}
-              hoursSpent={"32hrs"}
-              timeframe={period}
-              topColor={"pink"}
+        <ProfileCard className="side" profileImage={profileimage} userfirstName={userfirstname} userlastName={userlastname} getDataValue={getData} />
+        <DashBoardTimeCard>
+          {data &&
+            data.map(({ id, title,topColor ,daily,weekly,monthly,  }) => (
+              <TimeCard
+              key={id}
+              title={title}
+              topColor={topColor}
+              daily={daily}
+              icon={
+                title === "Exercise"
+                ? iconExercise
+                : title === "Study"
+                ? iconStudy
+                : title === "Play"
+                ? iconPlay
+                : title === "Self Care"
+                ? iconSelfCare
+                : title === "Social"
+                ? iconSocial
+                : title === "Work"
+                ? iconWork
+                : "--" 
+              }
               bodyColor={"blue"}
-            />
-            <TimeCard
-              title={"Play"}
-              hoursSpent={"10hrs"}
-              timeframe={period}
-              topColor={"pink"}
-              bodyColor={"blue"}
-            />
-            <TimeCard
-              title={"Study"}
-              hoursSpent={"4hrs"}
-              timeframe={period}
-              topColor={"pink"}
-              bodyColor={"blue"}
-            />
-            <TimeCard
-              title={"Exercise"}
-              hoursSpent={"4hrs"}
-              timeframe={period}
-              topColor={"pink"}
-              bodyColor={"blue"}
-            />
-            <TimeCard
-              title={"Social"}
-              hoursSpent={"5hrs"}
-              timeframe={period}
-              topColor={"pink"}
-              bodyColor={"blue"}
-            />
-            <TimeCard
-              title={"Self Care"}
-              hoursSpent={"2hrs"}
-              timeframe={period}
-              topColor={"pink"}
-              bodyColor={"blue"}
-            />
-          </DashBoardTimeCard>
+              timeframe={
+                period === "Daily"
+                  ? daily.timeframe
+                  : period === "Weekly"
+                  ? weekly.timeframe
+                  : period === "Monthly"
+                  ? monthly.timeframe
+                  : "--" 
+              }
+              hoursSpent={
+                period === "Daily"
+                  ? daily.hoursSpent
+                  : period === "Weekly"
+                  ? weekly.hoursSpent
+                  : period === "Monthly"
+                  ? monthly.hoursSpent
+                  : "--" 
+              }
+              />
+            ))}
+        </DashBoardTimeCard>
       </div>
-
     </Dash>
   );
 };
+
+// styles (Remaining code is the same)
+
 
 // styles
 const Dash = styled.div`
@@ -77,6 +109,7 @@ display: flex;
 min-height: 100vh;
 justify-content: center;
 align-items: center;
+
 
 .main{
     width: fit-content;
