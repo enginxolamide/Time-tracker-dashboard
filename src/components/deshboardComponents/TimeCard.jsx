@@ -46,8 +46,10 @@ const Card = styled.div`
     transform: translateY(-5px);
   }
   @media (max-width: 570px) {
-    width: 100%;
+    width: 100% ;
+
   }
+  
 `;
 
 const TopCont = styled.div`

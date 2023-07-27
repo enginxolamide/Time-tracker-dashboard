@@ -226,13 +226,16 @@ const Dashboard = () => {
 // styles
 const Dash = styled.div`
 display: flex;
+width: 100%;
+margin: 20px;
+
 min-height: 100vh;
 justify-content: center;
 align-items: center;
 
 
 .main{
-    width: fit-content;
+    width: 100%;
     display: flex;
     gap: 16px;
     margin: 20px;
@@ -241,7 +244,8 @@ align-items: center;
 
 @media (max-width: 670px) {
   flex-wrap: wrap;
-  padding: 20px;
+  padding: 20px ;
+
   .main{
     flex-direction: column;
     justify-content: center;
@@ -252,13 +256,14 @@ align-items: center;
 const DashBoardTimeCard = styled.div`
 display: flex;
 flex-wrap: wrap;
-width: fit-content;
+width: 100%;
 gap: 24px;
 max-width: 700px;
 justify-content: center;
 @media (max-width: 677px) {
-    max-width: 100%;
-    gap: 24px;
+  flex-direction: column;
+    width: 100%;
+    
     `;
 
 export default Dashboard;
