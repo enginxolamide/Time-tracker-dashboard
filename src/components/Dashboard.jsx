@@ -227,7 +227,7 @@ const Dashboard = () => {
 const Dash = styled.div`
 display: flex;
 width: 100%;
-margin: 20px;
+// margin: 20px;
 
 min-height: 100vh;
 justify-content: center;
